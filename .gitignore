@@ -36,7 +36,8 @@ Thumbs.db
 
 # testdata
 #testdata
-#tests/data
+tests/pivtec
+tests/piv_challenge
 
 # jupyter
 *.ipynb_checkpoints*

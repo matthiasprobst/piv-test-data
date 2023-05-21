@@ -15,12 +15,27 @@ class PivChallenge(WebZip):
 
 pc_1A = PivChallenge(challenge_number=1, case_name='A',
                      url='https://www.pivchallenge.org/pub/A/A.zip')
+pc_1A.meta.pixel_size_mu = (6.7, 6.7)
+pc_1A.meta.dynamic_range_bits = 12
+pc_1A.meta.quantum_efficiency = 0.4
+pc_1A.meta.full_well_capacity = 25000
+pc_1A.meta.readout_noise = 8  # 7 ... 8 @ 12.5 MHz
+pc_1A.meta.field_of_view_m = (0.17, 0.14)
 
 pc_1B = PivChallenge(challenge_number=1, case_name='B',
                      url='https://www.pivchallenge.org/pub/B/B.zip')
 
 pc_1C = PivChallenge(challenge_number=1, case_name='C',
                      url='https://www.pivchallenge.org/pub/C/C.zip')
+pc_1C.meta.frame_rate = 30  # frames per second
+pc_1C.meta.pixel_size_mu = (9.0, 9.0)  # micrometer
+pc_1C.meta.sensor_size = (9.072, 9.072)  # mm
+pc_1C.meta.dynamic_range_bits = 8
+
+# 35 mm f/2
+pc_1C.meta.lens_focal_length = 35  # mm
+pc_1C.meta.lens_f_number = 2.0
+
 
 # There is no case D!
 

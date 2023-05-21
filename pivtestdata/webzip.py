@@ -2,6 +2,8 @@ import pathlib
 import re
 import warnings
 import zipfile
+from dataclasses import dataclass
+from typing import Tuple
 
 import appdirs
 import requests
@@ -34,6 +36,22 @@ def load_img(img_filepath: pathlib.Path):
     return im_
 
 
+@dataclass
+class PIVImageMetaData:
+    # camera characteristics:
+    pixel_size_mu: Tuple[float, float] = None  # e.g. (6.7, 6.7); units is micrometer
+    sensor_size_mm: Tuple[float, float] = None  #
+    dynamic_range_bits: int = None  # e.g. 12; units is bits
+    quantum_efficiency: float = None  # e.g. 0.4 for 40%
+    full_well_capacity: int = None  # e.g. 25000 e
+    readout_noise: int = None  # e.g. 7 e
+
+    field_of_view_m: Tuple[float, float] = None  # e.g. (0.001, 0.001); units is meter
+
+    lens_focal_length_mm: float = None  # e.g. 50; units is millimeter
+    lens_f_number: float = None  # e.g. 1.4
+
+
 class PIVImages:
 
     def __init__(self, filenames: list):
@@ -60,6 +78,7 @@ class WebZip:
 
         self.image_dir = None  # can also be used as flag if the dataset is downloaded
         self._all_files = None
+        self._meta = PIVImageMetaData()
 
     def __repr__(self):
         return f'{self.__class__.__name__}(name={self.name}, url={self.url})'
@@ -117,7 +136,7 @@ class WebZip:
         return sorted([f for f in self.all_files if re.match(MASK_FILE_PATTERN, f.name, re.IGNORECASE)])
 
     @property
-    def info(self) -> str:
+    def readme(self) -> str:
         """Return the content of the readme file as string"""
         if self.image_dir is None:
             raise ValueError('download the dataset first')
@@ -129,6 +148,10 @@ class WebZip:
             warnings.warn(f'found multiple readme files. Will use {readme}. Others are: {readme_file_candidates}',
                           UserWarning)
         return readme.read_text()
+
+    @property
+    def meta(self) -> PIVImageMetaData:
+        return self._meta
 
     @property
     def A(self):
