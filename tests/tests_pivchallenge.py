@@ -11,31 +11,23 @@ def test_pivchallenge_meta():
 
 def test_pivchallenge():
     n_imgs = (2, 12, 4, 16)
-    for case_name, n_img in zip(('A', 'B', 'C', 'E'), n_imgs):
-        pc1 = ptd.piv_challenge[1][case_name]
-        assert pc1.name == f'piv_challenge/1/{case_name}'
-        assert pc1.url == f'https://www.pivchallenge.org/pub/{case_name}/{case_name}.zip'
-        assert pc1.challenge_number == 1
-        assert pc1.case == case_name
-        assert pc1.image_dir is None
-        pc1.download(target_folder=__this_dir__)
-        assert pc1.image_dir == __this_dir__ / f'piv_challenge/1/{case_name}'
-        assert len(pc1.image_filenames) == n_img
-        # assert pc1.image_filenames[0].name == 'A001_1.tif'
-        # assert pc1.image_filenames[1].name == 'A001_2.tif'
+    for pc, n_img in zip(
+            (ptd.piv_challenge.pc_1A, ptd.piv_challenge.pc_1B, ptd.piv_challenge.pc_1C, ptd.piv_challenge.pc_1E),
+            n_imgs):
+        assert pc.url == f'https://www.pivchallenge.org/pub/{pc.case}/{pc.case}.zip'
+        assert pc.challenge_number == 1
+        pc.download()
+        assert pc.image_dir == ptd.user_dir / pc.name
+        assert len(pc.image_filenames) == n_img
 
 
 def test_pivchallenge_2():
-    n_imgs = (200, 200, 200)
-    for case_name, n_img in zip(('A', 'B', 'C'), n_imgs):
-        pc1 = ptd.piv_challenge[2][case_name]
-        assert pc1.name == f'piv_challenge/2/{case_name}'
-        assert pc1.url == f'https://www.pivchallenge.org/pub03/{case_name}all.zip'
-        assert pc1.challenge_number == 2
-        assert pc1.case == case_name
-        assert pc1.image_dir is None
-        pc1.download(target_folder=__this_dir__)
-        assert pc1.image_dir == __this_dir__ / f'piv_challenge/2/{case_name}'
-        assert len(pc1.image_filenames) == n_img
-        # assert pc1.image_filenames[0].name == 'A001_1.tif'
-        # assert pc1.image_filenames[1].name == 'A001_2.tif'
+    n_imgs = (200, 200, 2)
+    for pc, n_img in zip((ptd.piv_challenge.pc_2A,
+                          ptd.piv_challenge.pc_2B,
+                          ptd.piv_challenge.pc_2C), n_imgs):
+        assert pc.url == f'https://www.pivchallenge.org/pub03/{pc.case}all.zip'
+        assert pc.challenge_number == 2
+        pc.download()
+        assert pc.image_dir == ptd.user_dir / pc.name
+        assert len(pc.image_filenames) == n_img

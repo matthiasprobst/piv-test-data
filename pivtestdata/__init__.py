@@ -3,6 +3,12 @@ from ._version import __version__
 from .webzip import WebZip, user_dir
 
 
+def print_cases():
+    """Print all cases available in pivtestdata."""
+    for p in (*piv_challenge.all_cases, pivtec.turbulent_boundary_layer, pivtec.vortex_pair):
+        print(p)
+
+
 def delete_all_downloaded_files():
     """Delete all files downloaded by pivtestdata."""
     if not user_dir.exists():
@@ -13,7 +19,7 @@ def delete_all_downloaded_files():
 
 def download_all():
     """Download all files from PIV Challenge and the ILA vortex pair"""
-    for p in (*piv_challenge.all_cases, pivtec.turbulent_boundary_layer):
+    for p in (*piv_challenge.all_cases, pivtec.turbulent_boundary_layer, pivtec.vortex_pair):
         p.download()
 
 

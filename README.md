@@ -36,6 +36,8 @@ imgA0 = case.A[0]
 imgB0 = case.B[0]
 
 print(case.info)  # will return the README content of the case
+
+imgA0.plot()  # plot image A
 ```
 
 Note, the following cases are available for the various PIV Challenges (PC) upon some are quite large and take a while
