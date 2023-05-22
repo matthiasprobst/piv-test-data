@@ -83,6 +83,12 @@ class WebZip:
     def __repr__(self):
         return f'{self.__class__.__name__}(name={self.name}, url={self.url})'
 
+    @property
+    def file_size(self):
+        """Return file size in bytes"""
+        r = requests.get(self.url, stream=True)
+        return int(r.headers.get("content-length", 0))
+
     def download(self, target_folder: pathlib.Path = None):
         """download to user dir or specified target folder"""
         if target_folder is None:

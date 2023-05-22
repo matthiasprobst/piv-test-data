@@ -28,7 +28,8 @@ import pivtestdata as ptd
 
 case = ptd.piv_challenge.pc_1A
 
-print(case)
+print('File size: ', case.file_size)  # will return the file size in bytes
+case.download()  # will download the data if not already present
 
 # get the image (numpy) arrays:
 imgA0 = case.A[0]
@@ -37,7 +38,8 @@ imgB0 = case.B[0]
 print(case.info)  # will return the README content of the case
 ```
 
-Note, the following cases are available for the various PIV Challenges (PC):
+Note, the following cases are available for the various PIV Challenges (PC) upon some are quite large and take a while
+to download (Especially cases 3 and 4, use `.file_size` to check the file size before downloading):
 
 PC # | Cases
 --- | ---
@@ -45,3 +47,7 @@ PC # | Cases
 2 | A, B, C
 3 | A, B, C
 4 | A, B, C, D, E, F
+
+## ToDo
+
+add the [Japanese standard images](http://www.vsj.jp/~pivstd/image-e.html)
