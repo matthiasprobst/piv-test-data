@@ -2,9 +2,6 @@ import pathlib
 from dataclasses import dataclass
 from typing import Tuple
 
-import matplotlib.pyplot as plt
-import numpy as np
-
 
 def load_img(img_filepath: pathlib.Path):
     """
@@ -42,51 +39,3 @@ class PIVImageMetaData:
 
     lens_focal_length_mm: float = None  # e.g. 50; units is millimeter
     lens_f_number: float = None  # e.g. 1.4
-
-
-class PIVImage(np.ndarray):
-    """PIV image array with filename"""
-
-    def __new__(cls, input_array, filename):
-        obj = np.asarray(input_array).view(cls)
-        obj._filename = filename
-        return obj
-
-    @property
-    def filename(self):
-        """Return filename"""
-        return self._filename
-
-    @property
-    def name(self):
-        """Return filename name"""
-        return self.filename.name
-
-    @property
-    def stem(self):
-        """Return filename stem"""
-        return self.filename.stem
-
-    def plot(self, ax=None, **kwargs):
-        """Plot image"""
-        cmap = kwargs.pop('cmap', 'gray')
-        kwargs['cmap'] = cmap
-        if ax is None:
-            ax = plt.gca()
-        ax.imshow(self, **kwargs)
-        ax.set_title(self.name)
-        return ax
-
-
-class PIVImages:
-    """Collection of PIV images"""
-
-    def __init__(self, filenames: list):
-        self.filenames = filenames
-        self._images = {}
-
-    def __getitem__(self, item):
-        """Return image array"""
-        if item not in self._images:
-            self._images[item] = load_img(self.filenames[item])
-        return PIVImage(self._images[item], filename=self.filenames[item])

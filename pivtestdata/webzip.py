@@ -8,7 +8,8 @@ import appdirs
 import requests
 from tqdm import tqdm
 
-from .image import PIVImageMetaData, PIVImages
+from .image import PIVImageMetaData
+from pivimage import PIVImages, PIVImagePairs
 
 user_dir = pathlib.Path(appdirs.user_data_dir('pivtestdata'))
 
@@ -52,7 +53,7 @@ class WebZip:
     @property
     def n_images(self):
         """Return number of images"""
-        return len(self.all_files)
+        return len(self.image_filenames)
 
     def download(self, force: bool = False):
         """download to user dir or specified target folder.
@@ -131,3 +132,9 @@ class WebZip:
     def B(self):
         """Return image B interface class"""
         return PIVImages(filenames=self.image_filenames[1::2])
+
+    @property
+    def AB(self):
+        """Return image AB interface class"""
+        return PIVImagePairs(filenames_A=self.image_filenames[::2],
+                             filenames_B=self.image_filenames[1::2])

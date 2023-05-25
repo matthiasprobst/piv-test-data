@@ -2,7 +2,7 @@ import pivtestdata as ptd
 
 
 def test_version():
-    assert ptd.__version__ == '0.1.2'
+    assert ptd.__version__ == '0.2.0'
 
 
 def test_filesizes():
