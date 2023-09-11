@@ -3,13 +3,13 @@ import re
 import shutil
 import warnings
 import zipfile
+from typing import Tuple
 
 import appdirs
 import requests
 from tqdm import tqdm
 
 from .image import PIVImageMetaData
-from pivimage import PIVImages, PIVImagePairs
 
 user_dir = pathlib.Path(appdirs.user_data_dir('pivtestdata'))
 
@@ -21,8 +21,12 @@ MASK_FILE_PATTERN = r'^(.*mask).*\.(tif|tiff|b16|bmp)$'
 class WebZip:
     """Web resource as zip file"""
 
-    def __init__(self, url: str, name=None):
+    def __init__(self, url: str, name=None,
+                 img_file_pattern: str = IMG_FILE_PATTERN,
+                 mask_file_pattern: str = MASK_FILE_PATTERN):
         self.url = url
+        self.img_file_pattern = img_file_pattern
+        self.mask_file_pattern = mask_file_pattern
 
         if name is None:
             self.name = pathlib.Path(self.url).stem
@@ -98,12 +102,14 @@ class WebZip:
     @property
     def image_filenames(self):
         """return all image filenames in the dataset"""
-        return sorted([f for f in self.all_files if re.match(IMG_FILE_PATTERN, f.name, re.IGNORECASE)])
+        return sorted([f for f in self.all_files if re.match(self.img_file_pattern, f.name, re.IGNORECASE)])
 
     @property
     def mask_filename(self):
         """return the mask filename in the dataset"""
-        return sorted([f for f in self.all_files if re.match(MASK_FILE_PATTERN, f.name, re.IGNORECASE)])
+        return sorted([f for f in self.all_files if re.match(self.mask_file_pattern, f.name, re.IGNORECASE)])
+
+    mask_filenames = mask_filename  # alias
 
     @property
     def readme(self) -> str:
@@ -114,7 +120,7 @@ class WebZip:
         all_files = pathlib.Path(self.image_dir).glob('*.*')
         readme_file_candidates = [f for f in all_files if re.match(r'readme', f.name, re.IGNORECASE)]
         readme = readme_file_candidates[0]
-        if len(readme_file_candidates) == 1:
+        if len(readme_file_candidates) > 1:
             warnings.warn(f'found multiple readme files. Will use {readme}. Others are: {readme_file_candidates}',
                           UserWarning)
         return readme.read_text()
@@ -126,15 +132,14 @@ class WebZip:
     @property
     def A(self):
         """Return image A interface class"""
-        return PIVImages(filenames=self.image_filenames[::2])
+        return self.image_filenames[::2]
 
     @property
     def B(self):
         """Return image B interface class"""
-        return PIVImages(filenames=self.image_filenames[1::2])
+        return self.image_filenames[1::2]
 
     @property
-    def AB(self):
+    def AB(self) -> Tuple[pathlib.Path, pathlib.Path]:
         """Return image AB interface class"""
-        return PIVImagePairs(filenames_A=self.image_filenames[::2],
-                             filenames_B=self.image_filenames[1::2])
+        return self.image_filenames[::2], self.image_filenames[1::2]

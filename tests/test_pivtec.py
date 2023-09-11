@@ -1,32 +1,43 @@
 import pathlib
-
-import numpy as np
-from pivimage import PIVImage
+import unittest
 
 import pivtestdata as ptd
 
 __this_dir__ = pathlib.Path(__file__).parent
 
 
-def test_vortex_pair():
-    vortex_pair = ptd.pivtec.vortex_pair
-    assert vortex_pair.name == 'pivtec/vortex_pair'
-    assert vortex_pair.url == 'https://www.pivtec.com/download/samples/pivimg1.zip'
-    vortex_pair.download()
-    assert vortex_pair.image_dir == ptd.user_dir / vortex_pair.name
-    assert len(vortex_pair.image_filenames) == 2
-    assert isinstance(vortex_pair.A[0], PIVImage)
-    assert isinstance(vortex_pair.B[0], PIVImage)
+class TestPIVTec(unittest.TestCase):
 
+    def setUp(self) -> None:
+        if False:
+            ptd.delete_all_downloaded_files()
 
-def test_turbulent_bdry_layer():
-    turbulent_boundary_layer = ptd.pivtec.turbulent_boundary_layer
-    assert turbulent_boundary_layer.name == 'pivtec/turbulent_boundary_layer'
-    assert turbulent_boundary_layer.url == 'https://www.pivtec.com/download/samples/pivimg2.zip'
-    turbulent_boundary_layer.download()
+    def test_vortex_pair(self):
+        vortex_pair = ptd.pivtec.vortex_pair
+        self.assertEqual(vortex_pair.name, 'pivtec/vortex_pair')
+        self.assertEqual(vortex_pair.url, 'https://www.pivtec.com/download/samples/VortexPairSeq.zip')
+        vortex_pair.download()
 
-    assert turbulent_boundary_layer.image_dir == ptd.user_dir / turbulent_boundary_layer.name
-    assert len(turbulent_boundary_layer.image_filenames) == 2
+        self.assertEqual(vortex_pair.image_dir, ptd.user_dir / vortex_pair.name)
+        self.assertEqual(80, len(vortex_pair.image_filenames))
+        self.assertEqual(1, len(vortex_pair.mask_filenames))
+        self.assertEqual(vortex_pair.mask_filename[0].name, 'vp__mask.bmp')
+        self.assertEqual(vortex_pair.mask_filenames[0].name, 'vp__mask.bmp')
+        self.assertIsInstance(vortex_pair.A[0], pathlib.Path)
+        self.assertIsInstance(vortex_pair.B[0], pathlib.Path)
 
-    assert isinstance(turbulent_boundary_layer.A[0], PIVImage)
-    assert isinstance(turbulent_boundary_layer.B[0], PIVImage)
+    def test_turbulent_bdry_layer(self):
+        turbulent_boundary_layer = ptd.pivtec.turbulent_boundary_layer
+        self.assertEqual(turbulent_boundary_layer.name, 'pivtec/turbulent_boundary_layer')
+        self.assertEqual(turbulent_boundary_layer.url,
+                         'https://www.pivtec.com/download/samples/turbbl_seq.zip')
+        turbulent_boundary_layer.download()
+
+        self.assertEqual(turbulent_boundary_layer.image_dir, ptd.user_dir / turbulent_boundary_layer.name)
+        self.assertEqual(20, len(turbulent_boundary_layer.image_filenames))
+        self.assertEqual(1, len(turbulent_boundary_layer.mask_filenames))
+
+        self.assertIsInstance(turbulent_boundary_layer.A[0], pathlib.Path)
+        self.assertIsInstance(turbulent_boundary_layer.B[0], pathlib.Path)
+        self.assertEqual(turbulent_boundary_layer.mask_filename[0].name, 'tbl_run3__mask.tif')
+        self.assertEqual(turbulent_boundary_layer.mask_filenames[0].name, 'tbl_run3__mask.tif')
