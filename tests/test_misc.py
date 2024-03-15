@@ -9,7 +9,14 @@ __this_dir__ = pathlib.Path(__file__).parent
 class TestPIVTec(unittest.TestCase):
 
     def test_version(self):
-        self.assertEqual(ptd.__version__, '0.2.0')
+        this_version = 'x.x.x'
+        setupcfg_filename = __this_dir__ / '../setup.cfg'
+        with open(setupcfg_filename, 'r') as f:
+            lines = f.readlines()
+            for line in lines:
+                if 'version' in line:
+                    this_version = line.split(' = ')[-1].strip()
+        self.assertEqual(ptd.__version__, this_version)
 
     def test_filesizes(self):
         self.assertEqual(ptd.pivtec.vortex_pair.file_size, 11646143)

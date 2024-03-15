@@ -1,7 +1,7 @@
 # PIV Test Data
 
-This repository provides test data which is freely available on the internet, so all credit goes to the original
-authors!!! Available datasets can be found under these links:
+This repository provides the interface to PIV test data, which is freely available on the internet, so all credit goes
+to the original authors!!! Available datasets in this repository can be found under these links:
 
 * [PIV Challenge 2001](https://www.pivchallenge.org/)
 * [ILA Vortex PAIR](https://www.pivtec.com/download.html)
@@ -9,8 +9,8 @@ authors!!! Available datasets can be found under these links:
 
 Intended use of this package is to have a convenient interface to PIV sample data to test PIV algorithms.
 
-**Note**, that the data is not stored in this repo but it assists in downloading it from the respective websites on demand.
-Once downloaded, the repo helps you to retrieve the file names quickly from a local user folder.
+**Note**, that the data is not stored in this repo but it assists in downloading it from the respective websites on
+demand. Once downloaded, the repo helps you to retrieve the file names quickly from a local user folder.
 
 ## Installation
 
@@ -21,6 +21,7 @@ pip install pivtestdata
 ```
 
 or the latest dev version directly from the git repo:
+
 ```bash
 pip install git+https://github.com/matthiasprobst/piv-test-data.git@main
 ```

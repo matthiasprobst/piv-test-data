@@ -1,13 +1,12 @@
+import appdirs
 import pathlib
 import re
+import requests
 import shutil
 import warnings
 import zipfile
-from typing import Tuple
-
-import appdirs
-import requests
 from tqdm import tqdm
+from typing import Tuple
 
 from .image import PIVImageMetaData
 
@@ -35,6 +34,7 @@ class WebZip:
 
         self._all_files = None
         self._meta = PIVImageMetaData()
+        self._image_dir = user_dir / self.name
 
     def __repr__(self):
         return f'{self.__class__.__name__}(name={self.name}, nimg={self.n_images}, url={self.url})'
@@ -48,7 +48,12 @@ class WebZip:
     @property
     def image_dir(self) -> pathlib.Path:
         """Return target folder"""
-        return user_dir / self.name
+        return self._image_dir
+
+    @property
+    def image_suffix(self) -> str:
+        """Return image suffix"""
+        return self.image_filenames[0].suffix
 
     def exists(self):
         """Check if the target folder exists"""
@@ -59,21 +64,37 @@ class WebZip:
         """Return number of images"""
         return len(self.image_filenames)
 
-    def download(self, force: bool = False):
+    def download(self, image_dir=None, force: bool = False) -> pathlib.Path:
         """download to user dir or specified target folder.
         If force is True, download even if the target folder exists.
+
+        Parameters
+        ----------
+        image_dir : str or pathlib.Path
+            target folder. If None, use automatically created local user dir
+        force : bool
+            download even if the target folder exists
+
+        Returns
+        -------
+        pathlib.Path
+            target folder
         """
+        if image_dir is not None:
+            self._image_dir = pathlib.Path(image_dir)
+
+        image_dir = self.image_dir
 
         if self.exists() and force:
-            shutil.rmtree(self.image_dir)
+            shutil.rmtree(image_dir)
 
         if self.exists() and not force and self.n_images > 1:
-            return self.image_dir
+            return image_dir
 
         if not self.exists():
-            self.image_dir.mkdir(parents=True)
+            image_dir.mkdir(parents=True)
 
-        zip_filename = self.image_dir / 'file.zip'
+        zip_filename = image_dir / 'file.zip'
         try:
             r = requests.get(self.url, stream=True)
             total_size = int(r.headers.get("content-length", 0))
@@ -85,12 +106,12 @@ class WebZip:
                     progress_bar.update(len(data))
 
             with zipfile.ZipFile(zip_filename) as z:
-                z.extractall(self.image_dir)
+                z.extractall(image_dir)
             zip_filename.unlink()
         except Exception as e:
             print(f'could not download {self.name} from {self.url}: {e}')
 
-        return self.image_dir
+        return image_dir
 
     @property
     def all_files(self):
