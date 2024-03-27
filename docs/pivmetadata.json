@@ -1,0 +1,60 @@
+{
+  "@context": {
+    "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
+    "first_name": "http://xmlns.com/foaf/0.1/firstName",
+    "last_name": "http://xmlns.com/foaf/0.1/firstName",
+    "orcidid": "http://w3id.org/nfdi4ing/metadata4ing#orcidId",
+    "affiliation": "https://schema.org/affiliation",
+    "mbox": "http://xmlns.com/foaf/0.1/mbox",
+    "units": "http://w3id.org/nfdi4ing/metadata4ing#hasUnits",
+    "standard_name": "https://matthiasprobst.github.io/pivmeta#has_standard_name",
+    "quantity_kind": "http://w3id.org/nfdi4ing/metadata4ing#hasKindOfQuantity",
+    "url": "http://schema.org/url",
+    "label": "http://www.w3.org/2004/02/skos/core#prefLabel",
+    "name": "https://schema.org/name",
+    "has_parameters": "http://w3id.org/nfdi4ing/metadata4ing#hasParameters",
+    "description": "http://schema.org/description",
+    "keywords": "http://schema.org/keywords"
+  },
+  "@graph": [
+    {
+      "@type": "m4i:Person",
+      "mbox": "christian.kaehler@dlr.de"
+    },
+    {
+      "@type": "m4i:Tool",
+      "type": "PCO SensiCam",
+      "has_parameters": [
+        {
+          "value": 0.1,
+          "standard_name": "quantum_efficiency"
+        },
+        {
+          "value": 1024,
+          "units": "px",
+          "standard_name": "horizontal_sensor_resolution"
+        },
+        {
+          "value": 1024,
+          "units": "px",
+          "standard_name": "vertical_sensor_resolution"
+        },
+        {
+          "value": 6.7,
+          "units": "um"
+        },
+        {
+          "value": 6.7,
+          "units": "um"
+        }
+      ],
+      "full_well_capacity": "25000 e",
+      "readout_noise": "@12.5 MHz: 7...8 e"
+    },
+    {
+      "@type": null,
+      "title": "Loss of seeding in the core of a tip vortex",
+      "description": "Image A001_1.tif and A001_2.tif were recorded at the DNW-LLF in order\nto study experimentally the wake vortex formation behind a transport\naircraft (DLR ALVAST half model) in landing configuration (U=60 m/s,\nmain flow direction is perpendicular to the light-sheet plane). The\nmeasurement position was 1.64 m behind the wing tip and the field of\nview is 170 mm by 140 mm. The images were selected as strong gradients,\nloss of image density, and varying particle image sizes are common\nproblems for many PIV applications in large wind tunnels."
+    }
+  ]
+}

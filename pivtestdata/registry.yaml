@@ -1,0 +1,49 @@
+pivtec:
+  vortex_pair:
+    url: https://www.pivtec.com/download/samples/VortexPairSeq.zip
+    img_file_pattern: r'vp_\d+[ab].tif'
+    mask_file_pattern: 'vp__mask*.bmp'
+  turbulent_boundary_layer:
+    url: https://www.pivtec.com/download/samples/turbbl_seq.zip
+    img_file_pattern: r'^(?!.*mask).*\.(tif|tiff|b16|bmp)$'
+    mask_file_pattern: r'^(.*mask).*\.(tif|tiff|b16|bmp)$'
+
+piv_challenge:
+  1A:
+    url: https://www.pivchallenge.org/pub/A/A.zip
+  1B:
+    url: https://www.pivchallenge.org/pub/B/B.zip
+  1C:
+    url: https://www.pivchallenge.org/pub/C/C.zip
+  1E:
+    url: https://www.pivchallenge.org/pub/E/E.zip
+  2A:
+    url: https://www.pivchallenge.org/pub03/Aall.zip
+  2B:
+    url: https://www.pivchallenge.org/pub03/Ball.zip
+  2C:
+    url: https://www.pivchallenge.org/pub03/Call.zip
+  3A1:
+    url: https://www.pivchallenge.org/pub05/A/A1.zip
+  3A2:
+    url: https://www.pivchallenge.org/pub05/A/A2.zip
+  3A3:
+    url: https://www.pivchallenge.org/pub05/A/A3.zip
+  3A4:
+    url: https://www.pivchallenge.org/pub05/A/A4.zip
+  3B:
+    url: https://www.pivchallenge.org/pub05/B/B.zip
+  3C:
+    url: https://www.pivchallenge.org/pub05/C/C.zip
+  4A:
+    url: https://www.pivchallenge.org/pub14/4th_PIV-Challenge_Images_Case_A.zip
+  4B:
+    url: https://www.pivchallenge.org/pub14/4th_PIV-Challenge_Images_Case_B.zip
+  4C:
+    url: https://www.pivchallenge.org/pub14/4th_PIV-Challenge_Images_Case_C.zip
+  4D:
+    url: https://www.pivchallenge.org/pub14/4th_PIV-Challenge_Images_Case_D.zip
+  4E:
+    url: https://www.pivchallenge.org/pub14/4th_PIV-Challenge_Images_Case_E.zip
+  4F:
+    url: https://www.pivchallenge.org/pub14/4th_PIV-Challenge_Images_Case_F.zip
