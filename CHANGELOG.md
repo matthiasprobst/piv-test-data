@@ -1,5 +1,5 @@
 # Changelog
 
-## v0.6.0
+## v0.5.0
 
 - no upper limit for Python version.
